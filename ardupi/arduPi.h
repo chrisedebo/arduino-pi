@@ -46,7 +46,7 @@
 
 #define IOBASE   0x20000000
 
-#define BSC0_BASE (IOBASE + 0x804000)
+#define BSC0_BASE (IOBASE + 0x205000)
 #define GPIO_BASE (IOBASE + 0x200000)
 #define BCM2835_SPI0_BASE (IOBASE + 0x204000)
 
@@ -99,7 +99,7 @@
 #define BIT_4 (1 << 4)
 #define BIT_17 (1 << 17)
 #define BIT_18 (1 << 18)
-#define BIT_27 (1 << 27)
+#define BIT_21 (1 << 21)
 #define BIT_22 (1 << 22)
 #define BIT_23 (1 << 23)
 #define BIT_24 (1 << 24)

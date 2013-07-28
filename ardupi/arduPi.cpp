@@ -308,7 +308,7 @@ int SerialPi::readBytes(char message[], int size){
  * the determined length has been read, or it times out.
  * Returns: number of characters read into the buffer. */
 int SerialPi::readBytesUntil(char character,char buffer[],int length){
-    char lastReaded = character + 1; //Just to initialize
+    char lastReaded = character +1; //Just to make lastReaded != character
     int count=0;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
     while(count != length && lastReaded != character){
@@ -947,7 +947,7 @@ void pinMode(int pin, Pinmode mode){
 			case 4:  GPFSEL0 &= ~(7 << 12); GPFSEL0 |= (1 << 12); break;
 			case 17: GPFSEL1 &= ~(7 << 21); GPFSEL1 |= (1 << 21); break;
 			case 18: GPFSEL1 &= ~(7 << 24); GPFSEL1 |= (1 << 24); break;
-			case 27: GPFSEL2 &= ~(7 << 21); GPFSEL2 |= (1 << 21); break;
+			case 21: GPFSEL2 &= ~(7 << 3);  GPFSEL2 |= (1 << 3);  break;
 			case 22: GPFSEL2 &= ~(7 << 6);  GPFSEL2 |= (1 << 6);  break;
 			case 23: GPFSEL2 &= ~(7 << 9);  GPFSEL2 |= (1 << 9);  break;
 			case 24: GPFSEL2 &= ~(7 << 12); GPFSEL2 |= (1 << 12); break;
@@ -957,9 +957,9 @@ void pinMode(int pin, Pinmode mode){
 	}else if (mode == INPUT){
 		switch(pin){
 			case 4:  GPFSEL0 &= ~(7 << 12); break;
-            case 17: GPFSEL1 &= ~(7 << 21); break;
+            		case 17: GPFSEL1 &= ~(7 << 21); break;
 			case 18: GPFSEL1 &= ~(7 << 24); break;
-			case 27: GPFSEL2 &= ~(7 << 21);  break;
+			case 21: GPFSEL2 &= ~(7 << 3);  break;
 			case 22: GPFSEL2 &= ~(7 << 6);  break;
 			case 23: GPFSEL2 &= ~(7 << 9);  break;
 			case 24: GPFSEL2 &= ~(7 << 12); break;
@@ -976,7 +976,7 @@ void digitalWrite(int pin, int value){
 			case  4:GPSET0 =  BIT_4;break;
 			case 17:GPSET0 = BIT_17;break;
 			case 18:GPSET0 = BIT_18;break;
-			case 27:GPSET0 = BIT_27;break;
+			case 21:GPSET0 = BIT_21;break;
 			case 22:GPSET0 = BIT_22;break;
 			case 23:GPSET0 = BIT_23;break;
 			case 24:GPSET0 = BIT_24;break;
@@ -987,7 +987,7 @@ void digitalWrite(int pin, int value){
 			case  4:GPCLR0 =  BIT_4;break;
 			case 17:GPCLR0 = BIT_17;break;
 			case 18:GPCLR0 = BIT_18;break;
-			case 27:GPCLR0 = BIT_27;break;
+			case 21:GPCLR0 = BIT_21;break;
 			case 22:GPCLR0 = BIT_22;break;
 			case 23:GPCLR0 = BIT_23;break;
 			case 24:GPCLR0 = BIT_24;break;
@@ -1007,7 +1007,7 @@ int digitalRead(int pin){
 		case 4: if(GPLEV0 & BIT_4){value = HIGH;} else{value = LOW;};break;
 		case 17:if(GPLEV0 & BIT_17){value = HIGH;}else{value = LOW;};break;
 		case 18:if(GPLEV0 & BIT_18){value = HIGH;}else{value = LOW;};break;
-		case 27:if(GPLEV0 & BIT_27){value = HIGH;}else{value = LOW;};break;
+		case 21:if(GPLEV0 & BIT_21){value = HIGH;}else{value = LOW;};break;
 		case 22:if(GPLEV0 & BIT_22){value = HIGH;}else{value = LOW;};break;
 		case 23:if(GPLEV0 & BIT_23){value = HIGH;}else{value = LOW;};break;
 		case 24:if(GPLEV0 & BIT_24){value = HIGH;}else{value = LOW;};break;
@@ -1052,7 +1052,7 @@ int raspberryPinNumber(int arduinoPin){
 		case 5: return 25; break;
 		case 6: return  4; break;
 		case 7: return 17; break;
-		case 8: return 27; break;
+		case 8: return 21; break;
 		case 9: return 22; break;
 	}
 }
