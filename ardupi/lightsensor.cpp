@@ -110,6 +110,6 @@ void loop(void) {
 	printf("resistance=%f",resistance);
 	// Three second delay before taking our next
 	// reading
-	delay(3000);
+	delay(2000);
 }
 
