@@ -15,8 +15,8 @@ WirePi Wire;
 SPIPi SPI;
 
 
-#define RESISTOR 20000 //our 20K resistor
-#define LDR 20000 // The resistance of LDR
+#define RESISTOR 19800 //our 20K resistor
+#define LDR 5000 // The resistance of LDR
 
 // Number of readings to take
 // these will be averaged out to
@@ -44,6 +44,7 @@ int main (){
 void setup(void) {
 	printf("Starting up lightsensor \n");
 	Wire.begin();
+	pinMode(2,OUTPUT); //set pin 2 on the sheild as an output
 }
 
 void loop(void) {
@@ -73,7 +74,7 @@ void loop(void) {
 	
 	// 0x9C is our analog 1 pin
 	Wire.beginTransmission(8);
-	Wire.write(byte(0xDC));
+	Wire.write(byte(0x9C));
 	Wire.endTransmission();
 
 	/* Grab the two bytes returned from the
@@ -81,13 +82,11 @@ void loop(void) {
 	and write the value to the
 	combinedReadings array
 	*/
-
 	for(int r=0; r<READINGS; r++){
 		Wire.requestFrom(8,2);
 		val0 = Wire.read();
 		val1 = Wire.read();
 		channelReading = int(val0)*16 + int(val1>>4);
-		printf("channelReading=%f",channelReading);
 		analogReadingArduino = channelReading * 1023 /4095;
 		combinedReadings[r] = analogReadingArduino;
 		delay(100); }
@@ -100,6 +99,17 @@ void loop(void) {
 	}
 	avResistance /= READINGS;
 
+	printf("avresistance=%f \n",avResistance);
+	
+	//Turn LED on if low light levels
+	if (avResistance > 250){
+		digitalWrite(2,HIGH); //turn the LED on
+	}
+	else
+	{	
+		digitalWrite(2,LOW); //turn the LED off
+	}	
+
 	/* We can now calculate the resistance of
 	the readings that have come back from analog 0
 	*/
@@ -107,8 +117,9 @@ void loop(void) {
 	avResistance = RESISTOR / avResistance;
 	resistance = avResistance / LDR;
 	
-	printf("resistance=%f",resistance);
-	// Three second delay before taking our next
+	printf("resistance=%f \n",resistance);
+	
+	// Two second delay before taking our next
 	// reading
 	delay(2000);
 }
